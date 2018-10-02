@@ -9,13 +9,13 @@ $images = glob('images'.DIRECTORY_SEPARATOR.'*.{jpeg,jpg,gif,png}', GLOB_BRACE);
 $memory = new Memory($images ,'background.jpg');
 
 if(isset($_POST['again']) ) {
-  $memorie->restart();
+  $memory->restart();
 }
 
 //send the clicked one to the turn methode.
-for ($i=0; $i < $memorie->getSize(); $i++) {
+for ($i=0; $i < $memory->getSize(); $i++) {
   if(isset($_POST[$i])){
-    $memorie->turn($_POST);
+    $memory->turn($_POST);
   }
 }
 
@@ -31,7 +31,7 @@ for ($i=0; $i < $memorie->getSize(); $i++) {
   </head>
   <body>
     <h2>Memory <?php echo $memory->wonTheGame(); ?></h2>
-    <?php $memorie->loadField(); ?>
+    <?php $memory->loadField(); ?>
 
   </body>
 </html>
