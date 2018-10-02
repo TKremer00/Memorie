@@ -26,6 +26,8 @@ for ($i=0; $i < $memorie->getSize(); $i++) {
     <meta charset="utf-8">
     <title>Memorie</title>
     <link rel="stylesheet" href="Css/style.css">
+	 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="JS/Javascript.js"> </script>
   </head>
   <body>
     <h2>Memorie <?php echo $memorie->wonTheGame(); ?></h2>
