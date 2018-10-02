@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-class Memorie{
+class Memory{
 
   private $size;
   private $turnt ,$turnt_image , $image_id  = [];
