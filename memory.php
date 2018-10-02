@@ -33,7 +33,7 @@ class Memory{
 
   //if not isset session fill session whit the value
   private function sessionExist(string $nameSession , $value){
-    if(isset($value) && !isset($_SESSION[$nameSession]))
+    if(!isset($_SESSION[$nameSession]))
         $_SESSION[$nameSession] = $value;
   }
 
@@ -108,15 +108,12 @@ class Memory{
 
   //Check if user clicked the same image. and if its the same one.
   public function turn(array $post = []){
+    $_SESSION['turnt'][key($post)] = 'true';
+    $this->turnt = $_SESSION['turnt'];
 
     if(!isset($_SESSION['lastNumber'])){
       $_SESSION['lastNumber'] = key($post);
-      $_SESSION['turnt'][key($post)] = 'true';
-      $this->turnt = $_SESSION['turnt'];
     }else{
-      $_SESSION['turnt'][key($post)] = 'true';
-      $this->turnt = $_SESSION['turnt'];
-
       if($this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]){
         //Anser was wrong.
         $this->allowedToSwitch = false;
@@ -129,15 +126,13 @@ class Memory{
 
   //Check if user won the game
   public function wonTheGame(){
-    $message = 'win';
+    $message = '';
     if(isset($_SESSION['turnt'])){
       for ($i=0; $i < $this->size; $i++) {
-        if($_SESSION['turnt'][$i] == 'false') {
-          $message = 'n';
-        }
+        $message = $_SESSION['turnt'][$i] == 'false' ? 'n' : $message;
       }
+      return $message == 'n' ? '' : ', U won the game';
     }
-    return $message == 'n' ? '' : ', U won the game';
   }
 
   //restart the game
