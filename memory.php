@@ -97,7 +97,7 @@ class Memory{
 
     for ($i=0; $i < $this->size; $i++){
       echo "<div id='images'>\n";
-      echo '<button class="plaatje" name="'.$temp_array_ids[$i].'"';
+      echo '<button class="image" name="'.$temp_array_ids[$i].'"';
       echo $this->turnt[$i] != 'false' ? 'disabled><img src="' .$this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : '><img src="' .$this->notTurnt_Image;
       echo '" ></button>';
       echo "</div>\n";
