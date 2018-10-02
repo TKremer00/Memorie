@@ -24,34 +24,8 @@ for ($i=0; $i < $memorie->getSize(); $i++) {
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
-    <style type="text/css">
-      h2{
-        text-align: center;
-      }
-      form{
-        width: 75%;
-        margin: 0 auto;
-      }
-      #images{
-        display: inline-block;
-        width: 210px;
-        margin: 0.5%;
-      }
-
-      .plaatje{
-        background: none;
-        border-radius: 10px;
-      }
-      .plaatje img , .plaatje button{
-        width: 200px;
-      }
-
-      #button{
-        width: 4%;
-        margin: 0 auto;
-      }
-    </style>
+    <title>Memorie</title>
+    <link rel="stylesheet" href="Css/style.css">
   </head>
   <body>
     <h2>Memorie <?php echo $memorie->wonTheGame(); ?></h2>

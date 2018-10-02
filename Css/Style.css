@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+h2{
+  text-align: center;
+}
+
+form{
+  width: 85%;
+  margin: 0 auto;
+}
+
+#images , #button{
+  vertical-align: top;
+  display: inline-block;
+  width: 210px;
+  margin: 0.5%;
+}
+
+.plaatje{
+  background: none;
+  border-radius: 10px;
+}
+
+.plaatje img, .plaatje button{
+  width: 200px;
+  height: 115px;
+}
+
+#button input{
+  width: 215px;
+  height: 120px;
+}
