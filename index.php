@@ -1,5 +1,5 @@
 <?php
-require_once 'memorie.php';
+require_once 'memory.php';
 
 //Gets all images in a folder.
 //Make sure the image for the back of the cards is not in the folder.
