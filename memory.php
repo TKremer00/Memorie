@@ -136,7 +136,7 @@ class Memory{
   }
 
   //restart the game
-  public function restart(){
+  public static function restart(){
     session_unset();
   }
 

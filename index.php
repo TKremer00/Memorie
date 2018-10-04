@@ -1,16 +1,15 @@
 <?php
 require_once 'memory.php';
 
+if(isset($_POST['again']) ) {
+  Memory::restart();
+}
 //Gets all images in a folder.
 //Make sure the image for the back of the cards is not in the folder.
 $images = glob('images'.DIRECTORY_SEPARATOR.'*.{jpeg,jpg,gif,png}', GLOB_BRACE);
 
 //Place your image for the back of the card as seccond prameter.
 $memory = new Memory($images ,'background.jpg');
-
-if(isset($_POST['again']) ) {
-  $memory->restart();
-}
 
 //send the clicked one to the turn methode.
 for ($i=0; $i < $memory->getSize(); $i++) {
