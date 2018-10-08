@@ -118,7 +118,7 @@ class Memory{
       for ($i=0; $i < $this->size; $i++) {
         $message = $_SESSION['turnt'][$i] == 'false' ? 'n' : $message;
       }
-      return $message == 'n' ? '' : ', U won the game';
+      return $message == 'n' ? '' : ', You won the game';
     }
   }
 
