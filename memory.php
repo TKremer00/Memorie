@@ -55,7 +55,7 @@ class Memory{
   }
 
   //shuffle the images but keep the keys
-  private function changeImagePosition(array $list = []) {
+    private function changeImagePosition(array $list = []) {
     $keys = array_keys($list);
     shuffle($keys);
     $random = [];
@@ -67,21 +67,21 @@ class Memory{
   }
 
   //sets the keys of the turnt_images as the image_id.
-  private function imageIdSamePos(array $a=[]){
-    $b = array_keys($this->turnt_image);
-    $c = [];
+  private function imageIdSamePos(array $list=[]){
+    $keys = array_keys($this->turnt_image);
+    $rand = [];
 
-    foreach($b as $index) {
-      array_push($c, $a[$index]);
+    foreach($keys as $index) {
+      array_push($random, $list[$index]);
     }
-    return $c;
+    return $random;
   }
 
   //sets an array to the keys of image_id
-  private function getKeys(array $a=[]){
+  private function getKeys(array $list=[]){
     $array = [];
 
-    foreach ($a as $key => $value) {
+    foreach ($list as $key => $value) {
       array_push($array,$key );
     }
 
