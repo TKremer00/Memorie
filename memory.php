@@ -52,7 +52,7 @@ class Memory{
   }
 
   //shuffle the images but keep the keys
-    private function changeImagePosition(array $list = []) {
+  private function changeImagePosition(array $list = []) {
     $keys = array_keys($list);
     shuffle($keys);
     $random = [];
@@ -66,7 +66,7 @@ class Memory{
   //sets the keys of the turnt_images as the image_id.
   private function imageIdSamePos(array $list=[]){
     $keys = array_keys($this->turnt_image);
-    $rand = [];
+    $random = [];
 
     foreach($keys as $index) {
       array_push($random, $list[$index]);
@@ -89,15 +89,13 @@ class Memory{
   public function loadField(){
     $temp_array_ids = $this->getKeys($this->image_id);
     $this->allowedToSwitch && isset($_SESSION['turnt']) ? $this->turnt = $_SESSION['turnt'] : $this->allowedToSwitch = true;
-
+    //echo the complete form.
     echo "<div> \n <form action='' method='post'>\n";
-
     for ($i=0; $i < $this->size; $i++){
       echo "<div id='images'>\n <button class='image' name=".$temp_array_ids[$i] . "\n";
       echo $this->turnt[$i] != 'false' ? "disabled><img src='" .$this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : "><img src='" .$this->notTurnt_Image;
       echo "'>\n</button> \n </div>\n";
     }
-
     echo "<div id='button'>\n" . '<input type="submit" name="again" value="Restart">' . "</div>\n </form>\n";
   }
 
@@ -106,19 +104,14 @@ class Memory{
     $_SESSION['turnt'][key($post)] = 'true';
     $this->turnt = $_SESSION['turnt'];
 
-    if(!isset($_SESSION['lastNumber'])){
-      $_SESSION['lastNumber'] = key($post);
-    }else{
-      if($this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]){
-        //Anser was wrong.
-        $this->allowedToSwitch = false;
-        $_SESSION['turnt'][key($post)] = $_SESSION['turnt'][$_SESSION['lastNumber']] = 'false';
-      }
-      unset($_SESSION['lastNumber']);
+    if(isset($_SESSION['lastNumber']) && $this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]){
+      $this->allowedToSwitch = false;
+      $_SESSION['turnt'][key($post)] = $_SESSION['turnt'][$_SESSION['lastNumber']] = 'false';
     }
+    $_SESSION['lastNumber'] = isset($_SESSION['lastNumber']) ? null : key($post);
   }
 
-  //Check if user won the game
+  //Check if the user won the game
   public function wonTheGame(){
     $message = '';
     if(isset($_SESSION['turnt'])){
@@ -134,11 +127,10 @@ class Memory{
     session_unset();
   }
 
-  //Get the size variable
+  //returns the size variable
   public function getSize(){
     return $this->size;
   }
 
 }
-
 ?>
