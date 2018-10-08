@@ -117,8 +117,7 @@ class Memory{
       if($this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]){
         //Anser was wrong.
         $this->allowedToSwitch = false;
-        $_SESSION['turnt'][key($post)] = 'false';
-        $_SESSION['turnt'][$_SESSION['lastNumber']] = 'false';
+        $_SESSION['turnt'][key($post)] = $_SESSION['turnt'][$_SESSION['lastNumber']] = 'false';
       }
       unset($_SESSION['lastNumber']);
     }
