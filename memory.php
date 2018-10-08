@@ -39,13 +39,10 @@ class Memory{
 
   //random the position of the cards
   private function shakeCards(){
-    $_SESSION['Message'] =  "Shaking the cards";
-    $half = floor($this->size / 2);
-
+    $half = ceil($this->size / 2);
     //set the id's for the cards;
     for ($i=0; $i < $half; $i++) {
-      $this->image_id[$i] = $i;
-      $this->image_id[$half + $i] = $i;
+      $this->image_id[$i] = $this->image_id[$half + $i] = $i;
     }
 
     $this->turnt_image = $this->changeImagePosition($this->turnt_image);
