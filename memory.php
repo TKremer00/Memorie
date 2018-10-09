@@ -90,10 +90,12 @@ class Memory{
     $temp_array_ids = $this->getKeys($this->image_id);
     $this->allowedToSwitch && isset($_SESSION['turnt']) ? $this->turnt = $_SESSION['turnt'] : $this->allowedToSwitch = true;
     //echo the complete form.
-    echo "<div> \n <form action='' method='post'>\n";
+    echo "<form action='index.php' method='post'>\n";
     for ($i=0; $i < $this->size; $i++){
-      echo "<div id='images'>\n <button class='image' name=".$temp_array_ids[$i] . "\n";
-      echo $this->turnt[$i] != 'false' ? "disabled><img src='" .$this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : "><img src='" .$this->notTurnt_Image;
+      echo "<div id='images'>\n
+            <button class='image' name=".$temp_array_ids[$i] . "\n";
+      echo $this->turnt[$i] != 'false' ?
+            "disabled><img src='" .$this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : "><img src='" .$this->notTurnt_Image;
       echo "'>\n</button> \n </div>\n";
     }
     echo "<div id='button'>\n" . '<input type="submit" name="again" value="Restart">' . "</div>\n </form>\n";
