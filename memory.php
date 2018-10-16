@@ -39,7 +39,7 @@ class Memory{
 
   //random the position of the cards
   private function shakeCards(){
-    $half = ceil($this->size / 2);
+    $half = floor($this->size / 2);
     //set the id's for the cards;
     for ($i=0; $i < $half; $i++) {
       $this->image_id[$i] = $this->image_id[$half + $i] = $i;
