@@ -95,7 +95,7 @@ class Memory{
       echo "<div id='images'>\n
             <button class='image' name=".$temp_array_ids[$i];
       echo $this->turnt[$i] != 'false' ?
-            "disabled>\n<img src='" .$this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : ">\n<img src='" .$this->notTurnt_Image;
+            " disabled>\n<img src='" .$this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : ">\n<img src='" .$this->notTurnt_Image;
       echo "'>\n</button> \n </div>\n";
     }
     echo "<div id='button'>\n" . '<input type="submit" name="again" value="Restart">' . "</div>\n </form>\n";
