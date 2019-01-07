@@ -3,7 +3,7 @@ session_start();
 
 class Memory{
 
-    private $size;
+    private $size, $turns;
     private $turnt, $turnt_image, $image_id  = [];
     private $notTurnt_Image = '';
     private $allowedToSwitch = true;
@@ -17,7 +17,7 @@ class Memory{
 
         $this->sessionExist('turnt_image', $this->turnt_image);
         $this->sessionExist('turnt' , $this->turnt);
-
+        $this->sessionExist('turns', $this->turns);
         $this->needShaking();
     }
 
@@ -113,6 +113,7 @@ class Memory{
     {
         $_SESSION['turnt'][key($post)] = 1;
         $this->turnt = $_SESSION['turnt'];
+        $this->turns = $_SESSION['turns']++;
 
         if(isset($_SESSION['lastNumber']) && $this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]){
             $this->allowedToSwitch = false;
@@ -127,6 +128,20 @@ class Memory{
         if(isset($_SESSION['turnt']) && count(array_keys($_SESSION['turnt'], 0)) === 0){
             return ', You won the game';
         }
+    }
+
+    public function getTurns(){
+        return $this->turns;
+    }
+
+    public function getCompletion(){
+        $ret = 0;
+        if(count(array_keys($_SESSION['turnt'], 0)) % 2 == 0)
+            $ret = round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1);
+        else
+            $ret = round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
+        $ret .= "%";
+        return $ret;
     }
 
     //restart the game

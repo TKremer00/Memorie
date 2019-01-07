@@ -31,6 +31,6 @@ for ($i=0; $i < $memory->getSize(); $i++) {
   <body>
     <h2>Memory <?php echo $memory->wonTheGame(); ?></h2>
     <?php $memory->loadField(); ?>
-
+	<p class="textCenter">Turns : <?php echo $memory->getTurns(); ?> | Completion : <?php echo $memory->getCompletion(); ?></p>
   </body>
 </html>

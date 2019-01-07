@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-h2{
+h2,
+.textCenter{
   text-align: center;
 }
 
