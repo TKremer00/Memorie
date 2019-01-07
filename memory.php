@@ -130,16 +130,16 @@ class Memory{
         }
     }
 
+    //Get amount of turns
     public function getTurns(){
         return $this->turns;
     }
 
+    //Get the % of the completed part.
     public function getCompletion(){
-        $ret = 0;
-        if(count(array_keys($_SESSION['turnt'], 0)) % 2 == 0)
-            $ret = round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1);
-        else
-            $ret = round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
+        $ret = count(array_keys($_SESSION['turnt'], 0)) % 2 == 0 ?
+            round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1) :
+            round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
         $ret .= "%";
         return $ret;
     }
