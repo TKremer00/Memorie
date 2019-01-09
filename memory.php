@@ -121,6 +121,7 @@ class Memory {
         $_SESSION['lastNumber'] = isset($_SESSION['lastNumber']) ? null : key($post);
     }
 
+    //Get's number of images per row.
     public function numPerRow()
     {
         $numbers = [];
@@ -129,7 +130,12 @@ class Memory {
                 array_push($numbers, $i);
             }
         }
-        return !empty($numbers) ? $numbers[ceil((count($numbers) -1) / 2)] : 6;
+
+        if(!empty($numbers)){
+            return $_SESSION['screenWidth'] < 1400 ? $numbers[floor((count($numbers) -1) / 2)] : $numbers[ceil((count($numbers) -1) / 2)];
+        }else{
+            return 0;
+        }
     }
 
     //Check if the user won the game
