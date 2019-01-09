@@ -16,7 +16,7 @@ if(!isset($_SESSION['screenWidth'])){
 $images = glob('images'.DIRECTORY_SEPARATOR.'*.{jpeg,jpg,gif,png}', GLOB_BRACE);
 
 //Place your image for the back of the card as seccond prameter.
-$memory = new Memory($images ,'_Saw_BillyAchterkant.png');
+$memory = new Memory($images ,'background.jpg');
 
 //Send the clicked one to the turn methode.
 for ($i=0; $i < $memory->getSize(); $i++) {
