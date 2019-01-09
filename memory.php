@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-class Memory{
+class Memory {
 
-    private $size, $turns;
+    private $size, $turns = 0;
     private $turnt, $turnt_image, $image_id  = [];
     private $notTurnt_Image = '';
     private $allowedToSwitch = true;
@@ -14,7 +14,6 @@ class Memory{
         $this->notTurnt_Image = $notTurnt_Image;
         $this->size = count($this->turnt_image);
         $this->image_id = $this->turnt = array_fill(0, $this->size, 0);
-
         $this->sessionExist('turnt_image', $this->turnt_image);
         $this->sessionExist('turnt' , $this->turnt);
         $this->sessionExist('turns', $this->turns);
@@ -96,15 +95,15 @@ class Memory{
         $temp_array_ids = $this->getKeys($this->image_id);
         $this->allowedToSwitch && isset($_SESSION['turnt']) ? $this->turnt = $_SESSION['turnt'] : $this->allowedToSwitch = true;
 
-        $html = "<form action='index.php' method='post'>\n";
+        $html = "<form action='index.php' method='post'>\n <div id='imageContainer'>\n";
         for ($i=0; $i < $this->size; $i++) {
-            $html .= "\n<div id='images'> \n <button class='image' name=".$temp_array_ids[$i];
+            $html .= "\n<div id='images' class='width'> \n <button class='image' name=".$temp_array_ids[$i];
             $html .= $this->turnt[$i] != 0 ? " disabled>" : ">";
             $html .= "\n   <img src='";
             $html .= $this->turnt[$i] != 0 ? $this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : $this->notTurnt_Image;
             $html .= "'/>\n </button> \n</div>\n";
         }
-        $html .= "\n<div id='button'>\n" . '<input type="submit" name="again" value="Restart">' . "\n</div>\n </form>\n";
+        $html .= "</div>\n<div id='button'>\n" . '<input type="submit" name="again" value="Restart">' . "\n</div>\n </form>\n";
         return $html;
     }
 
@@ -122,6 +121,17 @@ class Memory{
         $_SESSION['lastNumber'] = isset($_SESSION['lastNumber']) ? null : key($post);
     }
 
+    public function numPerRow()
+    {
+        $numbers = [];
+        for ($i=3; $i < floor($this->size / 2); $i++) {
+            if($this->size % $i == 0){
+                array_push($numbers, $i);
+            }
+        }
+        return !empty($numbers) ? $numbers[ceil((count($numbers) -1) / 2)] : 6;
+    }
+
     //Check if the user won the game
     public function wonTheGame()
     {
@@ -130,16 +140,18 @@ class Memory{
         }
     }
 
-    public function getTurns(){
+    //Get amount of turns
+    public function getTurns()
+    {
         return $this->turns;
     }
 
-    public function getCompletion(){
-        $ret = 0;
-        if(count(array_keys($_SESSION['turnt'], 0)) % 2 == 0)
-            $ret = round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1);
-        else
-            $ret = round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
+    //Get the % of the completed part.
+    public function getCompletion()
+    {
+        $ret = count(array_keys($_SESSION['turnt'], 0)) % 2 == 0 ?
+            round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1) :
+            round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
         $ret .= "%";
         return $ret;
     }
