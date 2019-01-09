@@ -134,7 +134,7 @@ class Memory {
         if(!empty($numbers)){
             return $_SESSION['screenWidth'] < 1400 ? $numbers[floor((count($numbers) -1) / 2)] : $numbers[ceil((count($numbers) -1) / 2)];
         }else{
-            return 0;
+            return 4;
         }
     }
 
