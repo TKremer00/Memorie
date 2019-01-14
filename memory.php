@@ -15,8 +15,8 @@ class Memory {
         $this->size = count($this->turnt_image);
         $this->image_id = $this->turnt = array_fill(0, $this->size, 0);
         $this->sessionExist('turnt_image', $this->turnt_image);
-        $this->sessionExist('turnt' , $this->turnt);
         $this->sessionExist('turns', $this->turns);
+        $this->sessionExist('turnt' , $this->turnt);
         $this->needShaking();
     }
 
@@ -26,9 +26,7 @@ class Memory {
         if(isset($_SESSION['image_id'], $_SESSION['turnt_image'])){
             $this->image_id = $_SESSION['image_id'];
             $this->turnt_image = $_SESSION['turnt_image'];
-        }else {
-            $this->shakeCards();
-        }
+        }else { $this->shakeCards(); }
     }
 
     //if not isset session fill session with the value
@@ -59,7 +57,6 @@ class Memory {
         $keys = array_keys($list);
         shuffle($keys);
         $random = [];
-
         foreach ($keys as $key) {
             $random[$key] = $list[$key];
         }
@@ -71,7 +68,6 @@ class Memory {
     {
         $keys = array_keys($this->turnt_image);
         $random = [];
-
         foreach($keys as $index) {
             array_push($random, $list[$index]);
         }
@@ -82,7 +78,6 @@ class Memory {
     private function getKeys(array $list=[])
     {
         $array = [];
-
         foreach ($list as $key => $value){
             array_push($array,$key);
         }
@@ -95,15 +90,15 @@ class Memory {
         $temp_array_ids = $this->getKeys($this->image_id);
         $this->allowedToSwitch && isset($_SESSION['turnt']) ? $this->turnt = $_SESSION['turnt'] : $this->allowedToSwitch = true;
 
-        $html = "<form action='index.php' method='post'>\n <div id='imageContainer'>\n";
+        $html = "<form action='index.php' method='post' class='marginAuto'>\n <div id='imageContainer' class='textCenter w-100'>\n";
         for ($i=0; $i < $this->size; $i++) {
-            $html .= "\n<div id='images' class='width'> \n <button class='image' name=".$temp_array_ids[$i];
+            $html .= "\n<div id='images' class='width marginAuto'> \n <button class='image' name=".$temp_array_ids[$i];
             $html .= $this->turnt[$i] != 0 ? " disabled>" : ">";
-            $html .= "\n   <img src='";
+            $html .= "\n   <img class='w-100 h-100' src='";
             $html .= $this->turnt[$i] != 0 ? $this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : $this->notTurnt_Image;
             $html .= "'/>\n </button> \n</div>\n";
         }
-        $html .= "</div>\n<div id='button'>\n" . '<input type="submit" name="again" value="Restart">' . "\n</div>\n </form>\n";
+        $html .= "</div>\n<div id='button' class='marginAuto'>\n" . "<input type='submit' name='again' value='Restart' class='w-100 h-100'>" . "\n</div>\n </form>\n";
         return $html;
     }
 
@@ -114,7 +109,7 @@ class Memory {
         $this->turnt = $_SESSION['turnt'];
         $this->turns = $_SESSION['turns']++;
 
-        if(isset($_SESSION['lastNumber']) && $this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]){
+        if(isset($_SESSION['lastNumber']) && $this->image_id[key($post)] != $this->image_id[$_SESSION['lastNumber']]) {
             $this->allowedToSwitch = false;
             $_SESSION['turnt'][key($post)] = $_SESSION['turnt'][$_SESSION['lastNumber']] = 0;
         }
@@ -126,30 +121,20 @@ class Memory {
     {
         $numbers = [];
         for ($i=3; $i < floor($this->size / 2); $i++) {
-            if($this->size % $i == 0){
+            if($this->size % $i == 0)
                 array_push($numbers, $i);
-            }
         }
 
-        if(!empty($numbers)){
+        if(!empty($numbers)) {
             return $_SESSION['screenWidth'] < 1400 ? $numbers[floor((count($numbers) -1) / 2)] : $numbers[ceil((count($numbers) -1) / 2)];
-        }else{
-            return 0;
-        }
+        }else{ return 4; }
     }
 
     //Check if the user won the game
     public function wonTheGame()
     {
-        if(isset($_SESSION['turnt']) && count(array_keys($_SESSION['turnt'], 0)) === 0){
-            return ', You won the game';
-        }
-    }
-
-    //Get amount of turns
-    public function getTurns()
-    {
-        return $this->turns;
+        if(isset($_SESSION['turnt']) && count(array_keys($_SESSION['turnt'], 0)) === 0)
+            return ', You won the game!';
     }
 
     //Get the % of the completed part.
@@ -162,16 +147,16 @@ class Memory {
         return $ret;
     }
 
+    //Get amount of turns
+    public function getTurns()
+    { return $this->turns; }
+
     //restart the game
     public static function restart()
-    {
-        session_unset();
-    }
+    { session_unset(); }
 
     //returns the size variable
     public function getSize()
-    {
-        return $this->size;
-    }
+    { return $this->size; }
 }
 ?>

@@ -1,55 +1,61 @@
-body{
+* {
     margin: 0;
+    padding: 0;
 }
+
 h2,
-.textCenter{
+.textCenter {
   text-align: center;
 }
 
-form{
+h2,
+p {
+    margin: 10px 0;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.marginAuto {
+    margin: 0 auto;
+}
+
+form {
   width: 85%;
-  margin: 0 auto;
 }
 
 #imageContainer {
-    padding: 1px;
-    width: 100%;
     margin-bottom: 25px;
     border : 1px solid #e7e7e7;
     box-shadow: 13px 16px 13px #e7e7e7;
     border-radius: 10px;
     background-color: #f4f4f4;
-    text-align: center;
 }
 
-#images , #button{
-  vertical-align: top;
-  display: inline-block;
-  margin: 0 auto;
+#images {
+    max-width: 450px;
+    max-height: 247px;
+    vertical-align: top;
+    display: inline-block;
 }
 
-#button{
+#button {
     width: 99%;
-    display: block;
     height: 40px;
 }
 
-.image{
+.image {
   background-color: transparent;
   border: none;
-  padding: 0;
   cursor: pointer;
 }
 
-.image img,
-.image button{
-  width: 100%;
-  height: 100%;
-}
-
-
-
-#button input{
-  width: 100%;
-  height: 100%;
+.image img {
+    max-width: 450px;
+    max-height: 247px;
 }
