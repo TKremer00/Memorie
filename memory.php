@@ -119,15 +119,12 @@ class Memory {
     //Get's number of images per row.
     public function numPerRow()
     {
-        $numbers = [];
-        for ($i=3; $i < floor($this->size / 2); $i++) {
+        $array = [];
+        for ($i=1; $i < $this->size; $i++) {
             if($this->size % $i == 0)
-                array_push($numbers, $i);
+                array_push($array , $i);
         }
-
-        if(!empty($numbers)) {
-            return $_SESSION['screenWidth'] < 1400 ? $numbers[floor((count($numbers) -1) / 2)] : $numbers[ceil((count($numbers) -1) / 2)];
-        }else{ return 4; }
+         return $array[floor(count($array)/2) + ($_SESSION['screenWidth'] > 1400 && count($array < 1) ? 1 : 0)];
     }
 
     //Check if the user won the game

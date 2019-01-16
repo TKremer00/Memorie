@@ -10,13 +10,14 @@ if(!isset($_SESSION['screenWidth'])){
     header('Location: getWidth.php');
     exit;
 }
+$background_imageUrl = 'background.jpg';
 
 //Gets all images in a folder.
 //Make sure the image for the back of the cards is not in the folder.
 $images = glob('images'.DIRECTORY_SEPARATOR.'*.{jpeg,jpg,gif,png}', GLOB_BRACE);
 
 //Place your image for the back of the card as seccond prameter.
-$memory = new Memory($images ,'background.jpg');
+$memory = new Memory($images ,$background_imageUrl);
 
 //Send the clicked one to the turn methode.
 for ($i=0; $i < $memory->getSize(); $i++) {
@@ -43,7 +44,10 @@ for ($i=0; $i < $memory->getSize(); $i++) {
     <h2>Memory <?php echo $memory->wonTheGame(); ?></h2>
     <?php echo $memory->loadField(); ?>
     <p class="textCenter">Turns : <?php echo $memory->getTurns(); ?> | Completion : <?php echo $memory->getCompletion(); ?></p>
-    <br>
+    
+	<div id='images' class='width marginAuto storeHeight'><button class='image' name=last>
+        <img class='h-100 w-100' src='<?php echo $background_imageUrl; ?>'/></button></div>
+	
 </body>
 </html>
 <?php

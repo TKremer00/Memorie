@@ -4,7 +4,6 @@ $(window).scroll(function() {
 });
 
 $(document).ready(function() {
-  if (sessionStorage.scrollTop != "undefined") {
-    $(window).scrollTop(sessionStorage.scrollTop);
-  }
+  if (sessionStorage.scrollTop != "undefined") { $(window).scrollTop(sessionStorage.scrollTop); }
+  $('.image').css('height', $('.storeHeight').height());
 });
