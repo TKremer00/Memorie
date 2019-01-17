@@ -30,7 +30,7 @@ class Memory {
     }
 
     //if not isset session fill session with the value
-    private function sessionExist(string $nameSession , $value)
+    private function sessionExist(string $nameSession, $value)
     {
         if(!isset($_SESSION[$nameSession]))
             $_SESSION[$nameSession] = $value;
@@ -52,7 +52,7 @@ class Memory {
     }
 
     //shuffle the images but keep the keys
-    private function changeImagePosition(array $list = [])
+    private function changeImagePosition(array $list=[])
     {
         $keys = array_keys($list);
         shuffle($keys);
@@ -78,7 +78,7 @@ class Memory {
     private function getKeys(array $list=[])
     {
         $array = [];
-        foreach ($list as $key => $value){
+        foreach ($list as $key => $value) {
             array_push($array,$key);
         }
         return $array;
@@ -92,18 +92,18 @@ class Memory {
 
         $html = "<form action='index.php' method='post' class='marginAuto'>\n <div id='imageContainer' class='textCenter w-100'>\n";
         for ($i=0; $i < $this->size; $i++) {
-            $html .= "\n<div id='images' class='width marginAuto'> \n <button class='image' name=".$temp_array_ids[$i];
-            $html .= $this->turnt[$i] != 0 ? " disabled>" : ">";
+            $html .= "\n<div id='images' class='width marginAuto'> \n";
+            $html .= "<button class='image' name=".$temp_array_ids[$i] . ($this->turnt[$i] != 0 ? " disabled>" : ">");
             $html .= "\n   <img class='w-100 h-100' src='";
-            $html .= $this->turnt[$i] != 0 ? $this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : $this->notTurnt_Image;
-            $html .= "'/>\n </button> \n</div>\n";
+            $html .= ($this->turnt[$i] != 0 ? $this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : $this->notTurnt_Image) . "'/>\n";
+            $html .= "</button> \n</div>\n";
         }
-        $html .= "</div>\n<div id='button' class='marginAuto'>\n" . "<input type='submit' name='again' value='Restart' class='w-100 h-100'>" . "\n</div>\n </form>\n";
+        $html .="</div>\n<div id='button' class='marginAuto'>\n" . "<input type='submit' name='again' value='Restart' class='again w-100 h-100'>" . "\n</div>\n </form>\n";
         return $html;
     }
 
     //Check if user clicked the same image. and if its the same one.
-    public function turn(array $post = [])
+    public function turn(array $post)
     {
         $_SESSION['turnt'][key($post)] = 1;
         $this->turnt = $_SESSION['turnt'];
@@ -124,7 +124,7 @@ class Memory {
             if($this->size % $i == 0)
                 array_push($array , $i);
         }
-         return $array[floor(count($array)/2) + ($_SESSION['screenWidth'] > 1400 && count($array < 1) ? 1 : 0)];
+        return $array[floor(count($array)/2) + ($_SESSION['screenWidth'] > 1400 && count($array < 1) ? 1 : 0)];
     }
 
     //Check if the user won the game
@@ -141,28 +141,34 @@ class Memory {
             round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1) :
             round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
         $ret .= "%";
-        return $ret;
+        return $ret > 0 ? $ret : '0%';
     }
-	
-	// if last activity is more than 1 hour ago destroy the session.
+
+    // if last activity is more than 1 hour ago destroy the session.
     public static function maxTimeSessionExeeded() {
         if (isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 3600))
-            return true;
+        return true;
         $_SESSION['lastActivity'] = time();
         return false;
     }
+
+    //restart the game
+    public static function restart()
+    {
+        setcookie('seconds', null, -1, '/');
+        setcookie('minutes', null, -1, '/');
+        session_unset();
+    }
+
+    //Get the time from the cookies.
+    public function getTime()
+    { return " | " . sprintf("%02d", $_COOKIE['minutes']) . ":"  .sprintf("%02d", $_COOKIE['seconds']); }
 
     //Get amount of turns
     public function getTurns()
     { return $this->turns; }
 
-    //restart the game
-    public static function restart()
-    {
-		setcookie('seconds', null, -1, '/');
-        setcookie('minutes', null, -1, '/');
-        session_unset(); 		
-	}
+
 
     //returns the size variable
     public function getSize()

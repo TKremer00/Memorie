@@ -18,7 +18,9 @@
             <input type='hidden' name='width' id='inp_width'/>
         </form>
         <?php
-        if(!empty($_POST['width'])){
+        if(!empty($_POST['width'])) {
+            setcookie('seconds', 0, time()+3600, '/');
+            setcookie('minutes', 0, time()+3600, '/');
             $_SESSION['screenWidth'] = $_POST['width'];
             header('Location: index.php');
             exit;

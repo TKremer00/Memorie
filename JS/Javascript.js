@@ -6,6 +6,7 @@ $(document).ready(function() {
     //$('.image').css('height', $('.storeHeight').height());
     startClock();
 });
+
 //Makes a cookie
 function createCookie(name, value, days)
 {
@@ -17,6 +18,7 @@ function createCookie(name, value, days)
     }
     document.cookie = name + "=" + value + expires + "; path=/";
 }
+
 //Reads the cookie
 function readCookie(name)
 {
@@ -29,11 +31,13 @@ function readCookie(name)
     }
     return null;
 }
+
 //Erase the cookie
 function eraseCookie(name)
 {
     createCookie(name, "", -1);
 }
+
 //Start the clock
 function startClock()
 {
@@ -51,8 +55,8 @@ function startClock()
             minutes++;
         }
 
+        $('.showTime').html(" | " + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
         if($('button').length <= $('button:disabled').length) {
-            $('.showTime').html(" | " + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
             clearInterval(counter);
         }
         // see the time in console == console.log("Time : " + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
