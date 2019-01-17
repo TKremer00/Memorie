@@ -2,7 +2,7 @@
 require_once 'memory.php';
 
 
-if(isset($_POST['again']) ) {
+if(isset($_POST['again']) && Memory::maxTimeSessionExeeded()) {
   Memory::restart();
 }
 
@@ -43,10 +43,11 @@ for ($i=0; $i < $memory->getSize(); $i++) {
   <body>
     <h2>Memory <?php echo $memory->wonTheGame(); ?></h2>
     <?php echo $memory->loadField(); ?>
-    <p class="textCenter">Turns : <?php echo $memory->getTurns(); ?> | Completion : <?php echo $memory->getCompletion(); ?></p>
+    <p class="textCenter">Turns : <?php echo $memory->getTurns(); ?> | Completion : <?php echo $memory->getCompletion(); ?><span class="showTime"></span></p>
     
 	<div id='images' class='width marginAuto storeHeight'><button class='image' name=last>
         <img class='h-100 w-100' src='<?php echo $background_imageUrl; ?>'/></button></div>
+		
 	
 </body>
 </html>

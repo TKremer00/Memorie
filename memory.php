@@ -143,6 +143,14 @@ class Memory {
         $ret .= "%";
         return $ret;
     }
+	
+	// if last activity is more than 1 hour ago destroy the session.
+    public static function maxTimeSessionExeeded() {
+        if (isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 3600))
+            return true;
+        $_SESSION['lastActivity'] = time();
+        return false;
+    }
 
     //Get amount of turns
     public function getTurns()
@@ -150,7 +158,11 @@ class Memory {
 
     //restart the game
     public static function restart()
-    { session_unset(); }
+    {
+		setcookie('seconds', null, -1, '/');
+        setcookie('minutes', null, -1, '/');
+        session_unset(); 		
+	}
 
     //returns the size variable
     public function getSize()
