@@ -32,12 +32,6 @@ function readCookie(name)
     return null;
 }
 
-//Erase the cookie
-function eraseCookie(name)
-{
-    createCookie(name, "", -1);
-}
-
 //Start the clock
 function startClock()
 {
@@ -47,18 +41,17 @@ function startClock()
     //handels the clock count.
     function clock()
     {
-        createCookie("seconds", seconds, 365);
-        createCookie("minutes", minutes, 365);
-        seconds++;
         if(seconds >= 59) {
             seconds=0;
             minutes++;
         }
-
         $('.showTime').html(" | " + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
+        seconds++;
+        createCookie("seconds", (seconds + 2), 10);
+        createCookie("minutes", minutes, 10);
         if($('button').length <= $('button:disabled').length) {
             clearInterval(counter);
+            return;
         }
-        // see the time in console == console.log("Time : " + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
     }
 }
