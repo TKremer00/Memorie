@@ -8,8 +8,7 @@ class Memory {
     private $notTurnt_Image = '';
     private $allowedToSwitch = true;
 
-    function __construct(array $images = [] , $notTurnt_Image)
-    {
+    function __construct(array $images = [] , $notTurnt_Image) {
         $this->turnt_image = array_merge($images, $images);
         $this->notTurnt_Image = $notTurnt_Image;
         $this->size = count($this->turnt_image);
@@ -21,24 +20,23 @@ class Memory {
     }
 
     //Check if you need to shake the cards.
-    private function needShaking()
-    {
+    private function needShaking() {
         if(isset($_SESSION['image_id'], $_SESSION['turnt_image'])){
             $this->image_id = $_SESSION['image_id'];
             $this->turnt_image = $_SESSION['turnt_image'];
-        }else { $this->shakeCards(); }
+        }else{ 
+            $this->shakeCards();
+        }
     }
 
     //if not isset session fill session with the value
-    private function sessionExist(string $nameSession, $value)
-    {
+    private function sessionExist(string $nameSession, $value) {
         if(!isset($_SESSION[$nameSession]))
             $_SESSION[$nameSession] = $value;
     }
 
     //random the position of the cards
-    private function shakeCards()
-    {
+    private function shakeCards() {
         $half = floor($this->size / 2);
         //set the id's for the cards
         for ($i=0; $i < $half; $i++) {
@@ -52,8 +50,7 @@ class Memory {
     }
 
     //shuffle the images but keep the keys
-    private function changeImagePosition(array $list=[])
-    {
+    private function changeImagePosition(array $list=[]) : array {
         $keys = array_keys($list);
         shuffle($keys);
         $random = [];
@@ -64,8 +61,7 @@ class Memory {
     }
 
     //sets the keys of the turnt_images as the image_id.
-    private function imageIdSamePos(array $list=[])
-    {
+    private function imageIdSamePos(array $list=[]) : array {
         $keys = array_keys($this->turnt_image);
         $random = [];
         foreach($keys as $index) {
@@ -74,37 +70,25 @@ class Memory {
         return $random;
     }
 
-    //sets an array to the keys of image_id
-    private function getKeys(array $list=[])
-    {
-        $array = [];
-        foreach ($list as $key => $value) {
-            array_push($array,$key);
-        }
-        return $array;
-    }
-
     //Make the cards visible
-    public function loadField()
-    {
-        $temp_array_ids = $this->getKeys($this->image_id);
+    public function loadField() : string {
+        $temp_array_ids = array_keys($this->image_id);
         $this->allowedToSwitch && isset($_SESSION['turnt']) ? $this->turnt = $_SESSION['turnt'] : $this->allowedToSwitch = true;
 
-        $html = "<form action='index.php' method='post' class='marginAuto'>\n <div id='imageContainer' class='textCenter w-100'>\n";
+        $html = "<form action='index.php' method='post'>\n <div id='imageContainer' class='marginAuto w-100'>\n";
         for ($i=0; $i < $this->size; $i++) {
-            $html .= "\n<div id='images' class='width marginAuto'> \n";
+            $html .= "\n<div class='images'> \n";
             $html .= "<button class='image' name=".$temp_array_ids[$i] . ($this->turnt[$i] != 0 ? " disabled>" : ">");
-            $html .= "\n   <img class='w-100 h-100' src='";
+            $html .= "\n   <img ".  getimagesize($this->turnt_image[$this->image_id[$temp_array_ids[$i]]])[3]     ." src='";
             $html .= ($this->turnt[$i] != 0 ? $this->turnt_image[$this->image_id[$temp_array_ids[$i]]] : $this->notTurnt_Image) . "'/>\n";
             $html .= "</button> \n</div>\n";
         }
-        $html .="</div>\n<div id='button' class='marginAuto'>\n" . "<input type='submit' name='again' value='Restart' class='again w-100 h-100'>" . "\n</div>\n </form>\n";
+        $html .="</div>\n<div id='button' class='marginAuto w-85'>\n" . "<input type='submit' name='again' value='Restart' class='again w-100 h-100'>" . "\n</div>\n </form>\n";
         return $html;
     }
 
     //Check if user clicked the same image. and if its the same one.
-    public function turn(array $post)
-    {
+    public function turn(array $post) {
         $_SESSION['turnt'][key($post)] = 1;
         $this->turnt = $_SESSION['turnt'];
         $this->turns = $_SESSION['turns']++;
@@ -116,62 +100,52 @@ class Memory {
         $_SESSION['lastNumber'] = isset($_SESSION['lastNumber']) ? null : key($post);
     }
 
-    //Get's number of images per row.
-    public function numPerRow()
-    {
-        $array = [];
-        for ($i=1; $i < $this->size; $i++) {
-            if($this->size % $i == 0)
-                array_push($array , $i);
-        }
-        return $array[floor(count($array)/2) + ($_SESSION['screenWidth'] > 1400 && count($array < 1) ? 1 : 0)];
-    }
-
     //Check if the user won the game
-    public function wonTheGame()
-    {
+    public function wonTheGame() {
         if(isset($_SESSION['turnt']) && count(array_keys($_SESSION['turnt'], 0)) === 0)
             return ', You won the game!';
     }
 
     //Get the % of the completed part.
-    public function getCompletion()
-    {
+    public function getCompletion() : string {
         $ret = count(array_keys($_SESSION['turnt'], 0)) % 2 == 0 ?
             round(($this->size - count(array_keys($_SESSION['turnt'], 0))) / $this->size * 100 , 1) :
             round(($this->size - count(array_keys($_SESSION['turnt'], 0)) -1) / $this->size * 100 , 1);
-        $ret .= "%";
-        return $ret > 0 ? $ret : '0%';
+        return ($ret > 0 ? $ret : 0) . '%';
     }
 
     // if last activity is more than 1 hour ago destroy the session.
-    public static function maxTimeSessionExeeded() {
+    public static function maxTimeSessionExeeded() : bool {
         if (isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 3600))
-        return true;
+            return true;
+        
         $_SESSION['lastActivity'] = time();
         return false;
     }
 
     //restart the game
-    public static function restart()
-    {
+    public static function restart() {
         setcookie('seconds', null, -1, '/');
         setcookie('minutes', null, -1, '/');
         session_unset();
     }
 
     //Get the time from the cookies.
-    public function getTime()
-    { return " | " . sprintf("%02d", $_COOKIE['minutes']) . ":"  .sprintf("%02d", $_COOKIE['seconds']); }
+    public function getTime() : string { 
+        if(isset($_COOKIE['minutes']))
+            return " | " . sprintf("%02d", $_COOKIE['minutes']) . ":"  .sprintf("%02d", $_COOKIE['seconds']); 
+        else
+            return " | " . 00.00 . ":"  . 00.00; 
+    }
 
     //Get amount of turns
-    public function getTurns()
-    { return $this->turns; }
-
-
+    public function getTurns() : int { 
+        return $this->turns; 
+    }
 
     //returns the size variable
-    public function getSize()
-    { return $this->size; }
+    public function getSize() : int { 
+        return $this->size; 
+    }
 }
 ?>
